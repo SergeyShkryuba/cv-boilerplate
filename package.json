@@ -1,0 +1,44 @@
+{
+  "name": "cv-boilerplate",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "private": true,
+  "browserslist": [
+    "chrome >= 90",
+    "edge >= 90",
+    "firefox >= 90",
+    "safari >= 15",
+    "ios_saf >= 15"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "tsx scripts/build-pdf.tsx",
+    "build": "next build",
+    "pdf": "tsx scripts/build-pdf.tsx",
+    "lint": "eslint",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-pdf/renderer": "^4.5.1",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
+    "next": "16.2.9",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.3",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.2",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "tailwindcss": "^4",
+    "tsx": "^4.22.4",
+    "typescript": "^5"
+  }
+}

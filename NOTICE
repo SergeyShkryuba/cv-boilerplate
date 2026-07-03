@@ -1,0 +1,19 @@
+cv-boilerplate
+Copyright 2026 Oleksandr Bilostotskyi
+
+This product includes software developed by Oleksandr Bilostotskyi
+(https://github.com/your-handle).
+
+Licensed under the Apache License, Version 2.0. You may use, modify, and
+redistribute this template, including for your own CV, provided you retain
+this NOTICE and the attribution above in any redistributed copy or derivative
+of the template itself (see the LICENSE file, sections 4(c) and 4(d)).
+
+This attribution requirement applies to the TEMPLATE — its code, layout, and
+design system. It does NOT apply to the CV content you author on top of it:
+your name, career history, and personal data are yours.
+
+--------------------------------------------------------------------------------
+Bundled fonts (assets/fonts) are distributed under the SIL Open Font License 1.1:
+  - Manrope        © The Manrope Project Authors
+  - JetBrains Mono © 2020 The JetBrains Mono Project Authors

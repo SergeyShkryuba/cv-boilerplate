@@ -1,0 +1,154 @@
+@import 'tailwindcss';
+
+/* INFO: brand tokens for the web page. These MIRROR the JS palette in
+   src/shared/theme.ts (`brand`), which the PDF and OG card read. Re-theming
+   means editing both, in sync — see DESIGN.md. Values kept identical on
+   purpose so the page, PDF and social card share one visual identity. */
+@theme inline {
+  --color-background: #0d1117;
+  --color-surface: #12181f;
+  --color-surface-elevated: #161d26;
+  --color-foreground: #f0ede8;
+  --color-foreground-soft: #c8c4bc;
+  --color-muted-foreground: #8a857f;
+  --color-accent: #e8a838;
+  --color-border: #1e2631;
+  --color-border-strong: #252f3d;
+
+  --shadow-accent-cta: 0 8px 32px rgba(232, 168, 56, 0.2);
+
+  --font-sans: var(--font-manrope), 'Manrope', system-ui, sans-serif;
+  --font-mono:
+    var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, monospace;
+  --font-display:
+    var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, monospace;
+
+  --text-tag: 0.65rem;
+  --text-tag--line-height: 1.4;
+  --text-tag--letter-spacing: 0.08em;
+
+  --text-cap: 0.75rem;
+  --text-cap--line-height: 1.6;
+
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.75;
+
+  --text-copy: 0.95rem;
+  --text-copy--line-height: 1.8;
+
+  --text-title: 1.05rem;
+  --text-title--line-height: 1.3;
+
+  --text-h2: clamp(1.5rem, 4vw, 2.2rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.02em;
+
+  --text-hero: clamp(2rem, 6vw, 3.4rem);
+  --text-hero--line-height: 1.1;
+  --text-hero--letter-spacing: -0.03em;
+
+  --container-site: 860px;
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  /* Example per-locale optical fix: denser scripts (e.g. Cyrillic) read
+     heavier at display sizes, so tighten headings for that language. Adjust
+     the selector to your locale codes, or remove if you only ship Latin. */
+  :lang(uk) .font-display {
+    letter-spacing: -0.04em;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-strong);
+  }
+
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2 {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Print never impersonates the CV PDF: it renders the page depth as a clean
+   light document and points to the full PDF (CONTEXT.md, ADR-0001). */
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  body {
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  .print-hidden {
+    display: none !important;
+  }
+
+  .print-visible {
+    display: block !important;
+  }
+
+  main {
+    animation: none !important;
+  }
+
+  a {
+    color: #111827 !important;
+    text-decoration: none;
+  }
+
+  section,
+  article {
+    break-inside: avoid;
+  }
+}
