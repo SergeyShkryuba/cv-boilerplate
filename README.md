@@ -44,6 +44,14 @@ Name", one example role) so the build works before you touch it. Replace the
 values; keep the shape (enforced by `src/content/types.ts`). The `labels` block
 is UI chrome (section titles, button text), not personal data.
 
+**Sections self-hide when empty** (page and PDF): empty an array
+(`experience: []`, `projects: []`, `skills: []`, `pageStack: []`,
+`languages: []`), set `summary: ''`, or drop the `education` key — that section
+simply does not render. `name` / `title` / `location` are always shown. So a
+newcomer with no jobs fills **`projects`** (pet projects, open-source,
+hackathons — each with an optional `url` to the repo/demo) and leaves
+`experience: []`; the "Work Experience" heading never appears.
+
 ### 2. Config — `src/shared/site.ts`
 
 Your non-career settings: `url`, `email`, `pdfBaseName`, `socials`, `address`,

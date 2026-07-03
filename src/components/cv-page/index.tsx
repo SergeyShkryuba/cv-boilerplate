@@ -7,6 +7,7 @@ import { JsonLd } from '../json-ld'
 import { ExperienceSection } from './experience'
 import { CvFooter } from './footer'
 import { CvHeader } from './header'
+import { ProjectsSection } from './projects'
 import { CvSection } from './section'
 import { StackSection } from './stack'
 
@@ -20,13 +21,16 @@ export function CvPage({ content }: CvPageProps) {
       <JsonLd content={content} />
       <CvHeader content={content} />
 
-      <CvSection id="summary" heading={content.labels.summary}>
-        <p className="text-copy text-foreground-soft mt-6 max-w-[70ch]">
-          {content.summary}
-        </p>
-      </CvSection>
+      {content.summary.trim() && (
+        <CvSection id="summary" heading={content.labels.summary}>
+          <p className="text-copy text-foreground-soft mt-6 max-w-[70ch]">
+            {content.summary}
+          </p>
+        </CvSection>
+      )}
 
       <ExperienceSection content={content} />
+      <ProjectsSection content={content} />
       <StackSection content={content} />
       <CvFooter content={content} />
     </main>

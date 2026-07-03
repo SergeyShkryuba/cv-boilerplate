@@ -16,5 +16,6 @@ export type {
   ExperienceEntry,
   LanguageSkill,
   Locale,
+  ProjectEntry,
   SkillGroup,
 } from './types'

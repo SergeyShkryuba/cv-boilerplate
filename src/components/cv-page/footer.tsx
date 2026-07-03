@@ -17,12 +17,14 @@ export function CvFooter({ content }: CvFooterProps) {
 
   return (
     <footer className="border-border-strong mt-20 border-t pt-10 pb-16">
-      <p className="text-cap text-muted-foreground font-mono">
-        {content.labels.languages}:{' '}
-        <span className="text-foreground-soft">
-          {languagesLine(content.languages)}
-        </span>
-      </p>
+      {content.languages.length > 0 && (
+        <p className="text-cap text-muted-foreground font-mono">
+          {content.labels.languages}:{' '}
+          <span className="text-foreground-soft">
+            {languagesLine(content.languages)}
+          </span>
+        </p>
+      )}
 
       <div className="print-hidden mt-10">
         <DownloadButton

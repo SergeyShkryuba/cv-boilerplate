@@ -27,6 +27,13 @@ export function contentParityIssues(
       base.experience,
       candidate.experience,
     )
+    countMismatch(
+      issues,
+      locale,
+      'projects',
+      base.projects ?? [],
+      candidate.projects ?? [],
+    )
     countMismatch(issues, locale, 'skills', base.skills, candidate.skills)
     countMismatch(
       issues,

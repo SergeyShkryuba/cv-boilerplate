@@ -16,6 +16,16 @@ export interface ExperienceEntry {
   dim?: boolean
 }
 
+export interface ProjectEntry {
+  name: string
+  description: string
+  highlights: string[]
+  stack: string[]
+  period?: string
+  url?: string
+  dim?: boolean
+}
+
 export interface SkillGroup {
   label: string
   items: string[]
@@ -36,6 +46,7 @@ export interface LanguageSkill {
 export interface CvLabels {
   summary: string
   experience: string
+  projects: string
   stack: string
   skills: string
   education: string
@@ -47,6 +58,12 @@ export interface CvLabels {
   technologyStack: string
 }
 
+// INFO: name/title/location/metaDescription are the identity — always required
+// and always rendered. Everything else is a section that self-hides when empty:
+// an empty array (experience, projects, skills, pageStack, languages), an
+// empty/whitespace `summary`, or an omitted `education`/`projects` renders
+// nothing (page and PDF). Newcomers with no jobs fill `projects` and leave
+// `experience: []`.
 export interface CvContent {
   locale: Locale
   name: string
@@ -57,7 +74,8 @@ export interface CvContent {
   pageStack: string[]
   skills: SkillGroup[]
   experience: ExperienceEntry[]
-  education: Education
+  projects?: ProjectEntry[]
+  education?: Education
   languages: LanguageSkill[]
   labels: CvLabels
 }

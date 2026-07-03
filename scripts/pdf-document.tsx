@@ -10,7 +10,12 @@ import {
   View,
 } from '@react-pdf/renderer'
 
-import type { CvContent, ExperienceEntry, SkillGroup } from '../src/content'
+import type {
+  CvContent,
+  ExperienceEntry,
+  ProjectEntry,
+  SkillGroup,
+} from '../src/content'
 import { displayTitle, languagesLine } from '../src/shared/format'
 import { siteConfig } from '../src/shared/site'
 import { pdfPalette } from '../src/shared/theme'
@@ -151,6 +156,13 @@ const styles = StyleSheet.create({
     fontSize: 7.5,
     color: muted,
   },
+  entryUrl: {
+    marginTop: 3,
+    fontFamily: 'JetBrains Mono',
+    fontSize: 7.5,
+    color: accentInk,
+    textDecoration: 'none',
+  },
   skillGroupRow: {
     marginTop: 5,
   },
@@ -189,47 +201,77 @@ export function CvPdfDocument({ content }: CvPdfDocumentProps) {
       <Page size="A4" style={styles.page}>
         <PdfHeader content={content} />
 
-        <View style={styles.section}>
-          <Text style={styles.sectionHeading}>{content.labels.summary}</Text>
-          <Text>{content.summary}</Text>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionHeading}>{content.labels.experience}</Text>
-          {content.experience.map((entry, index) => (
-            <PdfExperienceEntry
-              key={`${entry.company}-${entry.period}`}
-              entry={entry}
-              first={index === 0}
-              stackLabel={content.labels.technologyStack}
-            />
-          ))}
-        </View>
-
-        <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionHeading}>{content.labels.skills}</Text>
-          {content.skills.map((group) => (
-            <PdfSkillGroup key={group.label} group={group} />
-          ))}
-        </View>
-
-        <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionHeading}>{content.labels.education}</Text>
-          <View style={styles.entryHeader}>
-            <Text style={styles.entryRole}>
-              {content.education.degree}, {content.education.field}
-            </Text>
-            <Text style={styles.entryPeriod}>{content.education.period}</Text>
+        {content.summary.trim() && (
+          <View style={styles.section}>
+            <Text style={styles.sectionHeading}>{content.labels.summary}</Text>
+            <Text>{content.summary}</Text>
           </View>
-          <Text style={styles.educationInstitution}>
-            {content.education.institution}
-          </Text>
-        </View>
+        )}
 
-        <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionHeading}>{content.labels.languages}</Text>
-          <Text>{languagesLine(content.languages, '   ·   ')}</Text>
-        </View>
+        {content.experience.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionHeading}>
+              {content.labels.experience}
+            </Text>
+            {content.experience.map((entry, index) => (
+              <PdfExperienceEntry
+                key={`${entry.company}-${entry.period}`}
+                entry={entry}
+                first={index === 0}
+                stackLabel={content.labels.technologyStack}
+              />
+            ))}
+          </View>
+        )}
+
+        {content.projects && content.projects.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionHeading}>{content.labels.projects}</Text>
+            {content.projects.map((project, index) => (
+              <PdfProjectEntry
+                key={project.name}
+                project={project}
+                first={index === 0}
+                stackLabel={content.labels.technologyStack}
+              />
+            ))}
+          </View>
+        )}
+
+        {content.skills.length > 0 && (
+          <View style={styles.section} wrap={false}>
+            <Text style={styles.sectionHeading}>{content.labels.skills}</Text>
+            {content.skills.map((group) => (
+              <PdfSkillGroup key={group.label} group={group} />
+            ))}
+          </View>
+        )}
+
+        {content.education && (
+          <View style={styles.section} wrap={false}>
+            <Text style={styles.sectionHeading}>
+              {content.labels.education}
+            </Text>
+            <View style={styles.entryHeader}>
+              <Text style={styles.entryRole}>
+                {content.education.degree}, {content.education.field}
+              </Text>
+              <Text style={styles.entryPeriod}>{content.education.period}</Text>
+            </View>
+            <Text style={styles.educationInstitution}>
+              {content.education.institution}
+            </Text>
+          </View>
+        )}
+
+        {content.languages.length > 0 && (
+          <View style={styles.section} wrap={false}>
+            <Text style={styles.sectionHeading}>
+              {content.labels.languages}
+            </Text>
+            <Text>{languagesLine(content.languages, '   ·   ')}</Text>
+          </View>
+        )}
 
         <View style={styles.footer} fixed>
           <Text>{siteConfig.url.replace('https://', '')}</Text>
@@ -306,6 +348,46 @@ function PdfExperienceEntry({
           <Text style={styles.entryStackLabel}>{stackLabel}: </Text>
           {entry.stack.join(', ')}
         </Text>
+      )}
+    </View>
+  )
+}
+
+interface PdfProjectEntryProps {
+  project: ProjectEntry
+  first: boolean
+  stackLabel: string
+}
+
+function PdfProjectEntry({ project, first, stackLabel }: PdfProjectEntryProps) {
+  const entryStyle = first ? [styles.entry, styles.entryFirst] : styles.entry
+
+  return (
+    <View style={entryStyle} wrap={false}>
+      <View style={styles.entryHeader}>
+        <Text style={styles.entryRole}>{project.name}</Text>
+        {project.period !== undefined && (
+          <Text style={styles.entryPeriod}>{project.period}</Text>
+        )}
+      </View>
+      <View style={styles.bulletList}>
+        {project.highlights.map((highlight) => (
+          <View key={highlight} style={styles.bulletRow}>
+            <Text style={styles.bulletMarker}>›</Text>
+            <Text style={styles.bulletText}>{highlight}</Text>
+          </View>
+        ))}
+      </View>
+      {project.stack.length > 0 && (
+        <Text style={styles.entryStack}>
+          <Text style={styles.entryStackLabel}>{stackLabel}: </Text>
+          {project.stack.join(', ')}
+        </Text>
+      )}
+      {project.url !== undefined && (
+        <Link src={project.url} style={styles.entryUrl}>
+          {project.url.replace(/^https?:\/\//, '')}
+        </Link>
       )}
     </View>
   )

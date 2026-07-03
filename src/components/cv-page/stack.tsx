@@ -10,6 +10,8 @@ interface StackSectionProps {
 }
 
 export function StackSection({ content }: StackSectionProps) {
+  if (content.pageStack.length === 0) return null
+
   return (
     <CvSection id="stack" heading={content.labels.stack}>
       <ul className="mt-8 flex flex-wrap gap-2.5">

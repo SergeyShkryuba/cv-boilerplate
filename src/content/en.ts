@@ -5,6 +5,11 @@ import type { CvContent } from './types'
 // render out of the box, but obviously not real. Keep the shape; swap the text.
 // The `labels` block is UI chrome (section titles, button text) — translate it
 // per locale, but it is not personal data.
+//
+// Sections self-hide when empty (page and PDF): set `summary: ''`, empty an
+// array (`experience: []`, `skills: []`, `pageStack: []`, `languages: []`), or
+// drop the whole `education` key, and that section simply does not render.
+// name / title / location are the identity and are always shown.
 export const en: CvContent = {
   locale: 'en',
   name: 'Your Name',
@@ -76,6 +81,29 @@ export const en: CvContent = {
       dim: true,
     },
   ],
+  projects: [
+    {
+      name: 'Project Name',
+      period: '2024',
+      description:
+        'One line on what the project is and your role. Great for pet projects, open-source, hackathons, or coursework when you are early-career — leave `experience: []` and let this section carry the weight.',
+      highlights: [
+        'What you built and the outcome — a feature, a result, a hard problem solved.',
+        'A second highlight: scope, tech decision, or something you shipped.',
+      ],
+      stack: ['Tech A', 'Tech B', 'Tech C'],
+      url: 'https://github.com/your-handle/project',
+    },
+    {
+      name: 'Another Project',
+      period: '2023',
+      description:
+        'A one-line summary of a second project. Add `url` to link the repo or live demo; omit `period`/`url` if you do not have them.',
+      highlights: ['A concrete thing you made here, framed as a result.'],
+      stack: ['Tech A', 'Tech B'],
+      url: 'https://your-demo.example',
+    },
+  ],
   education: {
     degree: 'Your Degree',
     field: 'Your Field of Study',
@@ -89,6 +117,7 @@ export const en: CvContent = {
   labels: {
     summary: 'Summary',
     experience: 'Work Experience',
+    projects: 'Projects',
     stack: 'Stack',
     skills: 'Skills',
     education: 'Education',

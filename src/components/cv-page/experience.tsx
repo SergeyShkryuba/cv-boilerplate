@@ -10,6 +10,8 @@ interface ExperienceSectionProps {
 }
 
 export function ExperienceSection({ content }: ExperienceSectionProps) {
+  if (content.experience.length === 0) return null
+
   return (
     <CvSection id="experience" heading={content.labels.experience}>
       <div className="mt-8">
