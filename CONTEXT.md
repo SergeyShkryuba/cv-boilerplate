@@ -72,9 +72,9 @@ _Avoid_: resume, about page (for CV page); static asset (for CV PDF).
 > **Owner:** "I only need English — do I have to touch the routing?"
 > **Template:** "No. The **Locale** list ships as `['en']` and English renders
 > at `/`. Routing reads that list; add a **Locale** by appending its code and
-> dropping in a matching **Content source** — the route and PDF generate
-> themselves (ADR-0002). The OG card renders the default locale; wire per-locale
-> cards only if you want them."
+> dropping in a matching **Content source** — the route, PDF and per-locale OG
+> card generate themselves (ADR-0002). Only `llms.txt` stays on the default
+> locale (the spec expects a single file at the site root)."
 
 > **Owner:** "Can I just put my real data straight into the placeholder file?"
 > **Template:** "Yes — that file _is_ the fill-in surface. The placeholders are

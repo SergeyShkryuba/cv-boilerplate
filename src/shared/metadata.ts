@@ -6,6 +6,7 @@ import type { Metadata, Viewport } from 'next'
 import { cvContent, type Locale } from '@/content'
 
 import { displayTitle } from './format'
+import { ogAlt, ogImageUrl, ogSize } from './og'
 import {
   defaultLocale,
   localeConfig,
@@ -25,6 +26,17 @@ export function cvMetadata(locale: Locale): Metadata {
   }
   languages['x-default'] = localePath(defaultLocale)
 
+  // INFO: point og:image / twitter:image at this locale's card explicitly. The
+  // OG file convention lives at the app root and cannot auto-inject across the
+  // optional catch-all [[...locale]] route, so without this the localized pages
+  // carry no image. See src/shared/og.ts and src/app/opengraph-image.tsx.
+  const ogImage = {
+    url: ogImageUrl(locale),
+    width: ogSize.width,
+    height: ogSize.height,
+    alt: ogAlt(locale),
+  }
+
   return {
     metadataBase: new URL(siteConfig.url),
     title: `${title} | CV`,
@@ -39,11 +51,13 @@ export function cvMetadata(locale: Locale): Metadata {
       title,
       description: content.metaDescription,
       locale: localeConfig[locale].ogLocale,
+      images: [ogImage],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description: content.metaDescription,
+      images: [ogImage],
     },
   }
 }

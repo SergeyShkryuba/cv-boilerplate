@@ -88,9 +88,10 @@ export function resolveLocale(segments?: string[]): Locale {
 }
 
 // INFO: static params for the [[...locale]] route — default locale as the
-// index (`[]`), every other locale as its own single-segment path.
+// index (`['']`, the empty slug `output: export` requires; a bare `[]` makes
+// Next drop the root path), every other locale as its own single-segment path.
 export function localeStaticParams(): { locale: string[] }[] {
   return localeConfigs.map((config, index) =>
-    index === 0 ? { locale: [] } : { locale: [config.code] },
+    index === 0 ? { locale: [''] } : { locale: [config.code] },
   )
 }

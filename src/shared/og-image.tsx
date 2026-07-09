@@ -8,6 +8,7 @@ import { ImageResponse } from 'next/og'
 
 import { cvContent, type Locale } from '@/content'
 
+import { ogSize } from './og'
 import { localeConfig, siteConfig } from './site'
 import { brand } from './theme'
 
@@ -18,15 +19,7 @@ const fontsDir = join(process.cwd(), 'assets', 'fonts')
 const displayFont = readFileSync(join(fontsDir, 'JetBrainsMono-700.ttf'))
 const labelFont = readFileSync(join(fontsDir, 'JetBrainsMono-400.ttf'))
 
-export const ogSize = { width: 1200, height: 630 }
-export const ogContentType = 'image/png'
-
 const domain = siteConfig.url.replace(/^https?:\/\//, '')
-
-export function ogAlt(locale: Locale) {
-  const content = cvContent[locale]
-  return `${content.name} — ${content.title}. ${content.labels.download}.`
-}
 
 export function renderCvOgImage(locale: Locale) {
   const content = cvContent[locale]

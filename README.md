@@ -33,6 +33,11 @@ Routing is **config-driven**
 ([ADR-0002](docs/adr/0002-config-driven-locales.md)): the default locale renders
 at `/`, additional ones at `/<code>`. Ships with English only.
 
+Discoverability artifacts — `robots.txt`, `sitemap.xml`, the JSON-LD graph, the
+per-locale OG cards and `llms.txt` (an [llmstxt.org](https://llmstxt.org) map
+for AI crawlers) — all derive from the same config and content, so they never
+drift from the CV. `llms.txt` renders the **default** locale.
+
 ## Fill it in (the 3 surfaces you own)
 
 Read [`CONTEXT.md`](CONTEXT.md) for the vocabulary first. Then:
@@ -65,14 +70,24 @@ both, in sync — see [`DESIGN.md`](DESIGN.md).
 
 ## Adding a language
 
-1. Append an entry to `localeConfigs` in `src/shared/site.ts` (the **first**
-   entry is the default and renders at `/`; others render at `/<code>`).
+1. Append an entry to `localeConfigs` in `src/shared/site.ts` with four fields:
+   `code` (ISO 639-1), `label` (the toggle text — a **language** name, never a
+   country: `УКР`, not `UK`, which reads as Britain), `ogLocale` (e.g.
+   `uk_UA`), and `ogNameLetterSpacing` (optical tightening of the name on the OG
+   card — denser scripts like Cyrillic read heavier, so use a tighter value
+   there). The **first** entry is the default and renders at `/`; others at
+   `/<code>`.
 2. Add `src/content/<code>.ts` and register it in `src/content/index.ts`.
 3. Keep locales structurally parallel — the parity check compares
    language-independent facts (entry counts, company names, page stack).
 4. If the script needs extra font subsets (e.g. Cyrillic), add them in
    `src/shared/fonts.ts` and confirm the committed TTFs in `assets/fonts` cover
    the glyphs (they carry Latin + Cyrillic by default).
+
+Routing, metadata, sitemap, the parity loop, the language toggle and the
+per-locale OG cards need nothing more — they all iterate `localeConfigs`. The
+only default-locale artifact is **`llms.txt`** (the llmstxt.org spec expects a
+single `/llms.txt` at the site root).
 
 ## Tech stack
 
@@ -110,7 +125,7 @@ writes the PDF(s) (named from `pdfBaseName`) into `public/`.
 
 ```
 src/
-  app/              Next.js App Router — [[...locale]] route, robots, sitemap
+  app/              Next.js App Router — [[...locale]] route, robots, sitemap, llms.txt
   components/       CV page components, download button, locale toggle, JSON-LD
   content/          Content source: en.ts (placeholders), index.ts, types.ts
   shared/           site config, theme tokens, metadata, fonts, parity, profile
